@@ -1,11 +1,10 @@
 package com.ragtag.Odysseia;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,9 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.ragtag.Odysseia.R;
-
-public class GameMasterModeActivity extends Activity {
+public class GameMasterModeActivity extends FragmentActivity {
     private String[] mOptionNames;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -91,13 +88,13 @@ public class GameMasterModeActivity extends Activity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
         // Create a new fragment and specify the planet to show based on position
-        /*Fragment fragment = new PlanetFragment();
+        Fragment fragment = new GameMapFragment();
         Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
+     //   args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
+       // fragment.setArguments(args);
 
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
@@ -105,7 +102,7 @@ public class GameMasterModeActivity extends Activity {
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mOptionNames[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);*/
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override

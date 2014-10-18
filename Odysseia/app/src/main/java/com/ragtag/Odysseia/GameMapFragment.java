@@ -6,12 +6,13 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,54 +24,41 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import util.Firebaser;
-
-public class GameMapActivity extends FragmentActivity {
+public class GameMapFragment extends Fragment {
 
     GoogleMap googleMap;
     LocationManager locationManager;
     PendingIntent pendingIntent;
     SharedPreferences sharedPreferences;
 
-    private Firebaser fireBaser;
-
+    private FragmentActivity fa;
+    private View view;
+    public static GameMapFragment newInstance() {
+        GameMapFragment g = new GameMapFragment();
+        return g;
+    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_map);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        fa = super.getActivity();
+        view = inflater.inflate(R.layout.activity_game_map, container, false);
 
-        Firebase.setAndroidContext(this);
-        fireBaser = new Firebaser();
 
-        /****** testing purposes ******/
-        Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("name", "testyomi");
-        dataMap.put("descr", "super super important");
-        dataMap.put("triggerRadius", "2.0f");
 
-        Map<String, LatLng> locMap = new HashMap<String, LatLng>();
-        locMap.put("testyomi5", new LatLng(47.561846, -122.139131));
-
-        fireBaser.store("testyomi5", dataMap, locMap);
-        /****************************/
 
         // Getting Google Play availability status
-        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(fa.getBaseContext());
 
         // Showing status
         if(status!=ConnectionResult.SUCCESS){ // Google Play Services are not available
 
             int requestCode = 10;
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, fa, requestCode);
             dialog.show();
 
         }else { // Google Play Services are available
 
             // Getting reference to the SupportMapFragment of activity_main.xml
-            SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            SupportMapFragment fm = (SupportMapFragment) fa.getSupportFragmentManager().findFragmentById(R.id.map);
 
             // Getting GoogleMap object from the fragment
             googleMap = fm.getMap();
@@ -79,10 +67,10 @@ public class GameMapActivity extends FragmentActivity {
             googleMap.setMyLocationEnabled(true);
 
             // Getting LocationManager object from System Service LOCATION_SERVICE
-            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) fa.getSystemService(fa.LOCATION_SERVICE);
 
             // Opening the sharedPreferences object
-            sharedPreferences = getSharedPreferences("location", 0);
+            sharedPreferences = fa.getSharedPreferences("location", 0);
 
             // Getting stored latitude if exists else return 0
             String lat = sharedPreferences.getString("lat", "0");
@@ -129,7 +117,7 @@ public class GameMapActivity extends FragmentActivity {
 
                     // Creating a pending intent which will be invoked by LocationManager when the specified region is
                     // entered or exited
-                    pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, proximityIntent,Intent.FLAG_ACTIVITY_NEW_TASK);
+                    pendingIntent = PendingIntent.getActivity(fa.getBaseContext(), 0, proximityIntent,Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     // Setting proximity alert
                     // The pending intent will be invoked when the device enters or exits the region 20 meters
@@ -152,7 +140,7 @@ public class GameMapActivity extends FragmentActivity {
                     /** Saving the values stored in the shared preferences */
                     editor.apply();
 
-                    Toast.makeText(getBaseContext(), "Quest Location set!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fa.getBaseContext(), "Quest Location set!", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -162,7 +150,7 @@ public class GameMapActivity extends FragmentActivity {
                 public void onMapLongClick(LatLng point) {
                     Intent proximityIntent = new Intent("android.intent.action.PROXTRIGGER");
 
-                    pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, proximityIntent,Intent.FLAG_ACTIVITY_NEW_TASK);
+                    pendingIntent = PendingIntent.getActivity(fa.getBaseContext(), 0, proximityIntent,Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     // Removing the proximity alert
                     locationManager.removeProximityAlert(pendingIntent);
@@ -179,10 +167,11 @@ public class GameMapActivity extends FragmentActivity {
                     // Committing the changes
                     editor.apply();
 
-                    Toast.makeText(getBaseContext(), "Proximity Alert is removed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(fa.getBaseContext(), "Proximity Alert is removed", Toast.LENGTH_LONG).show();
                 }
             });
         }
+        return view;
     }
 
     private void drawMarker(LatLng point){
@@ -229,7 +218,7 @@ public class GameMapActivity extends FragmentActivity {
     }
 */
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         setUpMapIfNeeded();
     }
@@ -256,7 +245,7 @@ public class GameMapActivity extends FragmentActivity {
 
         if (googleMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            googleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+            googleMap = ((SupportMapFragment) fa.getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (googleMap != null) {
