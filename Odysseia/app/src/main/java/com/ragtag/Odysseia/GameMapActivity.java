@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +23,11 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import util.Firebaser;
+
 public class GameMapActivity extends FragmentActivity {
 
     GoogleMap googleMap;
@@ -29,10 +35,27 @@ public class GameMapActivity extends FragmentActivity {
     PendingIntent pendingIntent;
     SharedPreferences sharedPreferences;
 
+    private Firebaser fireBaser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_map);
+
+        Firebase.setAndroidContext(this);
+        fireBaser = new Firebaser();
+
+        /****** testing purposes ******/
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("name", "testyomi");
+        dataMap.put("descr", "super super important");
+        dataMap.put("triggerRadius", "2.0f");
+
+        Map<String, LatLng> locMap = new HashMap<String, LatLng>();
+        locMap.put("testyomi5", new LatLng(47.561846, -122.139131));
+
+        fireBaser.store("testyomi5", dataMap, locMap);
+        /****************************/
 
         // Getting Google Play availability status
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
