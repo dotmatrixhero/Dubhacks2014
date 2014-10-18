@@ -1,4 +1,4 @@
-package com.example.yuliyabaran.myapplication;
+package com.ragtag.Odysseia;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;

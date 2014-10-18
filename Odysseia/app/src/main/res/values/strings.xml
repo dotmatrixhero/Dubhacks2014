@@ -7,5 +7,5 @@
     <string name="proximity_alert_notification_placeholder_text_template">%1$s</string>
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
-
+    <string name="app_id">361277545487</string>
 </resources>
