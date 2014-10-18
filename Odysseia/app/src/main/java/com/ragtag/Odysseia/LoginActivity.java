@@ -7,13 +7,16 @@ import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -28,6 +31,8 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.plus.PlusClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,6 +226,14 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
     @Override
     protected void onPlusClientSignIn() {
         //Set up sign out and disconnect buttons.
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        PlusClient client = getPlusClient();
+        editor.putString("username", client.getAccountName());
+        editor.commit();
+        Intent mainMenu = new Intent("android.intent.action.MAINMENU");
+        startActivity(mainMenu);
+        /*
         Button signOutButton = (Button) findViewById(R.id.plus_sign_out_button);
         signOutButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -234,7 +247,7 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
             public void onClick(View view) {
                 revokeAccess();
             }
-        });
+        });*/
     }
 
     @Override
