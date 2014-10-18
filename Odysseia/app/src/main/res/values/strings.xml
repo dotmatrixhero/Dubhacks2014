@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Odysseia</string>
+    <string name="title_activity_game_map">Odysseia</string>
+    <string name="proximity_alert_notification_title_template">Odysseia</string>
+    <string name="proximity_alert_notification_placeholder_text_template">%1$s</string>
+    <string name="action_share">Share</string>
+    <string name="action_reply">Reply</string>
+
+</resources>
