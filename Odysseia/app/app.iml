@@ -90,6 +90,7 @@
     <orderEntry type="library" exported="" name="support-v4-20.0.0" level="project" />
     <orderEntry type="library" exported="" name="geofire-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="tubesock-0.0.9" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-20.0.0" level="project" />
     <orderEntry type="module" module-name="BaseGameUtils" exported="" />
   </component>
 </module>

@@ -8,6 +8,6 @@ import OdysseiaGame.OdysseiaGame;
 public class QuestEntity extends MapEntity{
 
     public QuestEntity(double lat, double lon, String name, OdysseiaGame game) {
-        super(lat, lon, name, game);
+        super(lat, lon, name, game, MarkerType.QUEST);
     }
 }

@@ -38,11 +38,10 @@ public class GameMapFragment extends Fragment {
         return g;
     }
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fa = super.getActivity();
         view = inflater.inflate(R.layout.activity_game_map, container, false);
-
-
 
 
         // Getting Google Play availability status

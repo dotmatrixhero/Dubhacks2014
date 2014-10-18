@@ -15,11 +15,12 @@ public abstract class MapEntity {
     private double longitude;
     private double latitude;
     private float triggerRadiusInMeters;
+    public MarkerType markerType;
 
     private OdysseiaGame game;
     private boolean isActive;
 
-    public MapEntity(double lat, double lon, String name, OdysseiaGame game) {
+    public MapEntity(double lat, double lon, String name, OdysseiaGame game, MarkerType markerType) {
         String fragment;
         if (name.length() >= 5)
             fragment = name.substring(0, 4);
@@ -38,6 +39,7 @@ public abstract class MapEntity {
         this.latitude = lat;
         this.game = game;
         this.name = name;
+        this.markerType = markerType;
     }
     
     public void setName(String newName) {
@@ -75,5 +77,14 @@ public abstract class MapEntity {
 
     public float getTriggerRadius() {
         return this.triggerRadiusInMeters;
+    }
+
+    public enum MarkerType {
+        QUEST, ITEM, NPC, MONSTER;
+
+        @Override public String toString() {
+            // all lowercase, as is stored
+            return super.toString().toLowerCase();
+        }
     }
 }
