@@ -1,12 +1,14 @@
 package OdysseiaGame;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import MapEntity.MapEntity;
 import MapEntity.QuestEntity;
 import util.Firebaser;
 
@@ -14,25 +16,24 @@ import util.Firebaser;
  * Created by Brian on 10/11/2014.
  */
 public class OdysseiaGame {
-    private String id;
-
+    private final String id;
 
     public OdysseiaGame () {
-        Random random = new Random();
-        String randomText = new BigInteger(130, random).toString(32);
-        String fragment = "game";
-        for (int i = 0; i < 16; i++)
-            fragment += randomText.charAt(i);
-        this.id = fragment;
-
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("name", "Default game name");
 
-        Firebaser.store(id, dataMap);
+        id = Firebaser.storeNewGame(dataMap);
     }
 
-    public void createQuest(double lat, double lon, String name) {
+    public void createQuestEntity(double lat, double lon, String name) {
         QuestEntity quest = new QuestEntity(lat, lon, name, this);
 
+        String questid = Firebaser.storeMarker(id, quest, new LatLng(lat, lon));
     }
+
+    public void deleteGame() {
+        Firebaser.deleteGame(id);
+    }
+
+
 }
