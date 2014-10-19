@@ -1,5 +1,7 @@
 package MapEntity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import OdysseiaGame.OdysseiaGame;
 
 /**
@@ -7,7 +9,7 @@ import OdysseiaGame.OdysseiaGame;
  */
 public class ItemEntity extends MapEntity {
 
-    public ItemEntity(double lat, double lon, String name, OdysseiaGame game) {
-        super(lat, lon, name, game, MarkerType.ITEM);
+    public ItemEntity(LatLng loc, String name, OdysseiaGame game) {
+        super(loc.latitude, loc.longitude, name, game, MarkerType.ITEM);
     }
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,12 +25,19 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import MapEntity.MapEntity;
+import MapEntity.NPCEntity;
+import OdysseiaGame.OdysseiaGame;
+import util.Firebaser;
+
 public class GameMapFragment extends Fragment {
 
     GoogleMap googleMap;
     LocationManager locationManager;
     PendingIntent pendingIntent;
     SharedPreferences sharedPreferences;
+
+    private Firebaser firebaser;
 
     private FragmentActivity fa;
     private View view;
@@ -43,6 +51,8 @@ public class GameMapFragment extends Fragment {
         fa = super.getActivity();
         view = inflater.inflate(R.layout.activity_game_map, container, false);
 
+        Firebase.setAndroidContext(fa.getBaseContext());
+        firebaser = new Firebaser();
 
         // Getting Google Play availability status
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(fa.getBaseContext());
@@ -176,6 +186,9 @@ public class GameMapFragment extends Fragment {
     private void drawMarker(LatLng point){
         // Creating an instance of MarkerOptions
         MarkerOptions markerOptions = new MarkerOptions();
+
+        NPCEntity marker = new NPCEntity(point, "Tsuku Yomi", new OdysseiaGame());
+        firebaser.storeMarker("yomisgame", marker, point);
 
         // Setting latitude and longitude for the marker
         markerOptions.position(point);

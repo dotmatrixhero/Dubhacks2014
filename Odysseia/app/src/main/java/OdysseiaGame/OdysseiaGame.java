@@ -25,10 +25,10 @@ public class OdysseiaGame {
         id = Firebaser.storeNewGame(dataMap);
     }
 
-    public void createQuestEntity(double lat, double lon, String name) {
-        QuestEntity quest = new QuestEntity(lat, lon, name, this);
+    public void createQuestEntity(LatLng loc, String name) {
+        QuestEntity quest = new QuestEntity(loc, name, this);
 
-        String questid = Firebaser.storeMarker(id, quest, new LatLng(lat, lon));
+        String questid = Firebaser.storeMarker(id, quest, loc);
     }
 
     public void deleteGame() {

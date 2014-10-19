@@ -59,6 +59,7 @@ public class Firebaser {
     // stores a new game
     // Firebase will autogenerate a unique ID for us
     // @param dataMap : map of data to store under ID key (e.g. markers & associated data, not including location)
+    // TODO: pass in game object instead of dataMap ?
     public static String storeNewGame(Map<String, Object> dataMap)
     {
         Firebase gameRef = ref.child("games");
